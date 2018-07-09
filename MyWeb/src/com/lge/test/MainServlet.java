@@ -35,13 +35,13 @@ public class MainServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		/**
-		 * 1. ¿äÃ» ºĞ¼®
-		 * 2. Request¿¡¼­ µ¥ÀÌÅÍ ÃßÃâ
-		 * 3. Ã³¸® : service method È£Ãâ
-		 * 4. °á°ú ÀúÀå
+		 * 1. ìš”ì²­ ë¶„ì„
+		 * 2. Requestì²˜ë¦¬
+		 * 3. service method í˜¸ì¶œ
+		 * 4. ê²°ê³¼ ë°ì´í„° ì €ì¥
 		 */
-		req.setAttribute("msg", "Å×½ºÆ®");
-		// 5. °á°ú ÆäÀÌÁö ÀÌµ¿		 
+		req.setAttribute("msg", "ì •ìƒ ì²˜ë¦¬");
+		// 5. ê²°ê³¼ í˜ì´ì§€ ì „ì†¡		 
 		req.getRequestDispatcher("result.jsp").forward(req, res);// reuse data in request, response instances
 		// res.sendRedirect("result.jsp");// drop given request, response instances
 	}
