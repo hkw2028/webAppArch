@@ -59,10 +59,8 @@
 	<!-- Component Scan -->
 	<context:annotation-config />
 	<mvc:annotation-driven />
-	<context:component-scan
-		base-package="kr.jaen.spring.di" />
-	<context:component-scan
-		base-package="kr.jaen.web" />
+	<context:component-scan	base-package="kr.jaen.spring.di" />
+	<context:component-scan base-package="kr.jaen.web" />
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 	<!-- ViewResolver -->
 	<bean id="viewre"
