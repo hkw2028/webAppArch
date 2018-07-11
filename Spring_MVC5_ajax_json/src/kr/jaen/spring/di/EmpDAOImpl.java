@@ -35,4 +35,10 @@ public class EmpDAOImpl implements EmpDAO  {
 		System.out.println("DAO:"+e);
 		return e;
 	}
+	
+	public void update(int snum ,int salary) {
+		String sql="udpate Employee set salary = ? where snum =?";
+		temp.update(sql, salary, snum);
+	}
+	
 }
