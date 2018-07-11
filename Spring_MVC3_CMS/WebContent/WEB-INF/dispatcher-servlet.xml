@@ -4,16 +4,70 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:lang="http://www.springframework.org/schema/lang"
 	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.2.xsd
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-	
-	<context:component-scan base-package="kr.jaen.spring.di"/>
-	<context:component-scan base-package="kr.jaen.web"/>
-	
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<!-- Database and myBatis Setting -->
+	<context:property-placeholder
+		location="classpath:/config/jdbc.properties" />
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName"
+			value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxActive" value="${jdbc.maxPoolSize}" />
+	</bean>
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:config/SqlMapConfig.xml" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:/config/SqlQuery.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+
+
+	<!-- Transaction Setting -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:annotation-driven
+		transaction-manager="transactionManager" />
+	<!-- Transaction Bean 기반 Setting <tx:advice id="transactionAdvice" transaction-manager="transactionManager"> 
+		<tx:attributes> <tx:method name="search*" read-only="true" /> <tx:method 
+		name="save*" isolation="READ_COMMITTED" propagation="REQUIRED" read-only="false" 
+		timeout="10" rollback-for="java.lang.Exception" /> </tx:attributes> </tx:advice> 
+		<aop:config> <aop:advisor advice-ref="transactionAdvice" pointcut="execution(* 
+		*..*Service.*(..))" /> </aop:config> -->
+
+	<!-- Component Scan -->
+	<context:annotation-config />
+	<mvc:annotation-driven />
+	<context:component-scan
+		base-package="kr.jaen.spring.di" />
+	<context:component-scan
+		base-package="kr.jaen.web" />
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
-	<bean id="viewre" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	     <property name="prefix" value="/view/"/>
-	     <property name="suffix" value=".jsp"/>
-    </bean>      
+	<!-- ViewResolver -->
+	<bean id="viewre"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/view/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
 </beans>

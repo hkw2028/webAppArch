@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="cms">
+
+   <select id="addressSearch" parameterType="int" resultType="int">
+        Select  address  from customer2 where num=#{value}
+   </select>
+   
+   <insert id="insert" parameterType="Customer">
+   			insert into customer2  
+   			values(
+   				#{num},
+   				#{name},
+   				#{address},
+   				#{img})
+   </insert>
+   
+	<update id="update" parameterType="map">
+		update customer2 set
+				address=#{address}
+		where num = #{num}
+	</update>
+	
+    <delete id="delete" parameterType="int">
+ 		delete from customer2 where num = #{value}   
+    </delete>
+    
+    <select id="selectByNum"  parameterType="int" resultType="Customer">
+    	select * from customer2 where num=#{value}
+    </select>
+    
+    <sql id="select">
+    	select *  from customer2
+    </sql>    
+    <select id="selectList" resultType="Customer">
+    	 <include refid="select"/>
+    	 order by num
+    </select>   
+    <select id="selectListforRecent" resultType="Customer">
+    	<![CDATA[
+    		select * from (
+    	]]> 
+    		<include refid="select"/> 
+    	<![CDATA[
+    		order by snum desc )     	where rownum < 4
+    	]]>
+    </select>    
+   
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
