@@ -48,7 +48,10 @@
     		order by snum desc )     	where rownum < 4
     	]]>
     </select>    
-   
+   <resultMap type="customerNumName" id="searchList">
+   		<result property="num" column="num"/>
+   		<result property="name" column="name"/>   		
+   </resultMap>
  </mapper>
  
  
