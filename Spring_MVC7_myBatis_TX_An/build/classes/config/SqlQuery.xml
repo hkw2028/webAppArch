@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="emp">
+
+   <select id="salarySearch" parameterType="int" resultType="int">
+        Select  salary  from Employee where snum=#{value}
+   </select>
+   
+   <insert id="insert" parameterType="Employee">
+   			insert into Employee (snum,sname,salary)  
+   			values(
+   				#{snum},
+   				#{sname},
+   				#{salary})
+   </insert>
+   
+	<update id="update" parameterType="map">
+		update Employee set
+				salary=#{salary}
+		where snum = #{snum}
+	</update>
+	
+    <delete id="delete" parameterType="int">
+ 		delete from Employee where snum = #{value}   
+    </delete>
+    
+    <select id="selectByNum"  parameterType="int" resultType="Employee">
+    	select * from Employee where snum=#{value}
+    </select>
+    
+    <sql id="select">
+    	select *  from Employee
+    </sql>    
+    <select id="selectList" resultType="Employee">
+    	 <include refid="select"/>
+    	 order by snum
+    </select>   
+    <select id="selectListforRecent" resultType="Employee">
+    	select * from ( 
+    	<include refid="select"/> 
+    	order by snum desc )     	where rownum &lt; 4
+    </select>    
+   
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
